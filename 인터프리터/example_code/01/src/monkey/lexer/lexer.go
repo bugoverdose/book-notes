@@ -2,10 +2,12 @@ package lexer
 
 import "monkey/token"
 
+// position과 readPosition는 1만큼 차이나는 index 값. 
+// ch은 현재 position의 문자 
 type Lexer struct {
 	input        string
 	position     int  // current position in input (points to current char)
-	readPosition int  // current reading position in input (after current char)
+	readPosition int  // current reading position in input (after current char) 
 	ch           byte // current char under examination
 }
 
@@ -68,8 +70,8 @@ func (l *Lexer) NextToken() token.Token {
 		tok.Type = token.EOF
 	default:
 		if isLetter(l.ch) {
-			tok.Literal = l.readIdentifier()
-			tok.Type = token.LookupIdent(tok.Literal)
+			tok.Literal = l.readIdentifier() // 연속된 문자들 읽기
+			tok.Type = token.LookupIdent(tok.Literal) // 예약어/식별자(변수명)
 			return tok
 		} else if isDigit(l.ch) {
 			tok.Type = token.INT
@@ -91,15 +93,18 @@ func (l *Lexer) skipWhitespace() {
 }
 
 func (l *Lexer) readChar() {
+	// ch 재할당: 현재 읽는 문자, 즉 readChar 실행 후 position 값에 해당되는 위치의 문자로 재할당.
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
 	} else {
 		l.ch = l.input[l.readPosition]
 	}
-	l.position = l.readPosition
+	l.position = l.readPosition // position와 readPosition는 무조건 1만큼 차이.
 	l.readPosition += 1
 }
 
+// 현재 커서의 ch가 아닌 다음 커서의 ch 반환
+// 커서를 옮기지 않고 다음으로 올 문자를 확인 => 두 문자 토큰 확인용
 func (l *Lexer) peekChar() byte {
 	if l.readPosition >= len(l.input) {
 		return 0
@@ -108,6 +113,7 @@ func (l *Lexer) peekChar() byte {
 	}
 }
 
+// 연속되는 문자들 전부 읽기
 func (l *Lexer) readIdentifier() string {
 	position := l.position
 	for isLetter(l.ch) {
@@ -116,6 +122,7 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position]
 }
 
+// 연속되는 숫자들 전부 읽기
 func (l *Lexer) readNumber() string {
 	position := l.position
 	for isDigit(l.ch) {
