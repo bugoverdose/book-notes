@@ -7,15 +7,16 @@ import (
 )
 
 // The base Node interface
+// AST를 구성하는 모든 노드는 Node 인터페이스의 구현체
 type Node interface {
-	TokenLiteral() string
+	TokenLiteral() string // 토큰에 대응하는 리터럴값 반환(디버깅/테스트용)
 	String() string
 }
 
 // All statement nodes implement this
 type Statement interface {
 	Node
-	statementNode()
+	statementNode() // 더미 메서드. 컴파일 과정에서 검증 위함.
 }
 
 // All expression nodes implement this
@@ -24,6 +25,7 @@ type Expression interface {
 	expressionNode()
 }
 
+// Program 노드는 AST의 루트 노드. 프로그램을 구성하는 명령문 노드들의 슬라이스
 type Program struct {
 	Statements []Statement
 }
