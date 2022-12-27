@@ -8,8 +8,10 @@ import (
 	"strconv"
 )
 
+// 연산자 우선순위
 const (
-	_ int = iota
+	// iota: 각 상수에게 0,1,2,...을 값으로 할당
+	_ int = iota 
 	LOWEST
 	EQUALS      // ==
 	LESSGREATER // > or <
@@ -19,6 +21,7 @@ const (
 	CALL        // myFunction(X)
 )
 
+// 토큰에 대응되는 연산자 우선순위
 var precedences = map[token.TokenType]int{
 	token.EQ:       EQUALS,
 	token.NOT_EQ:   EQUALS,
