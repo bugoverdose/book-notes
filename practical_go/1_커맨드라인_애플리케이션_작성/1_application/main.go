@@ -14,9 +14,9 @@ type config struct {
 	printUsage bool
 }
 
-var usageMessage = fmt.Sprintf(`Usage %s <integer> [-h|--help]
+var usageMessage = fmt.Sprintf(`Usage: %s <integer> [-h|-help]
 
-A command line application which will print the given name <integer> number of times.`, os.Args[0])
+A greeter application which prints the name you entered <integer> number of times.`, os.Args[0])
 
 func main() {
 	c, err := parseArgs(os.Args[1:])
@@ -43,7 +43,7 @@ func main() {
 func parseArgs(args []string) (config, error) {
 	c := config{}
 	if len(args) != 1 {
-		return c, errors.New("invalid number of arguments")
+		return c, errors.New("Invalid number of arguments")
 	}
 	if args[0] == "-h" || args[0] == "--help" {
 		c.printUsage = true
@@ -59,7 +59,7 @@ func parseArgs(args []string) (config, error) {
 
 func validateArgs(c config) error {
 	if c.numTimes <= 0 {
-		return errors.New("must specify a number greater than 0")
+		return errors.New("Must specify a number greater than 0")
 	}
 	return nil
 }
@@ -91,7 +91,7 @@ func getName(r io.Reader, w io.Writer) (string, error) {
 	}
 	name := scanner.Text()
 	if len(name) == 0 {
-		return "", errors.New("you didn't enter your name")
+		return "", errors.New("You didn't enter your name")
 	}
 	return name, nil
 }
