@@ -5,3 +5,5 @@ cover.out
 build
 greeting
 application
+
+main_test.go
