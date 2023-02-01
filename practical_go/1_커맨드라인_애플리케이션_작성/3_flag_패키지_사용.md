@@ -1,5 +1,7 @@
 ## 3 flag 패키지 사용
 
+2_flag_application
+
 ### 일반적인 커맨드라인 애플리케이션 UI
 
 형식: `application [-h] [-n <value>] -silent <arg1> <arg2>`
